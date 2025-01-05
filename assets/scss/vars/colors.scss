@@ -1,1 +1,6 @@
 $bg-color: rgb(9, 9, 14);
+$light-bg-color: rgb(44, 44, 58);
+
+:root {
+  --light-bg-color: #{$light-bg-color};
+}

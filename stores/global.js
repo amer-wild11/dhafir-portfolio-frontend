@@ -23,6 +23,17 @@ export const useMyGlobalStore = defineStore({
         id: 3,
       },
     ],
+    apiLink:
+      "https://dhafir-backend-5hix3ckos-amer-wild11s-projects.vercel.app",
+    headers: {
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjc3MzczYzhhOGQzODM3NmFjZjVlYTczIiwiaWF0IjoxNzM1NzMzOTY5LCJleHAiOjE3MzU4MjAzNjl9.9ScRMwsl0XTv2BfhhDrABaGUGcdGEL_eelIYzMeTmoU",
+    },
+    ball: {
+      grow: false,
+      play_icon: false,
+      icon: "",
+    },
   }),
   actions: {
     timeAgo(date) {
@@ -52,6 +63,14 @@ export const useMyGlobalStore = defineStore({
       const regex = /vimeo\.com\/(?:.*#|.*\/videos\/|.*\/|)(\d+)/i;
       const match = url.match(regex);
       return match ? match[1] : null;
+    },
+    ballEnter(icon) {
+      this.ball.icon = icon;
+      this.ball.grow = true;
+    },
+    ballLeave() {
+      this.ball.icon = "";
+      this.ball.grow = false;
     },
   },
 });

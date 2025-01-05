@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Header />
+    <Sidebar />
+    <DashboardHeader />
+    <DashboardDeleteAlert />
     <slot />
-    <VideoPopup />
-    <Ball />
   </div>
 </template>
 

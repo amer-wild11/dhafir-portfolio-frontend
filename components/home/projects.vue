@@ -1,17 +1,16 @@
 <template lang="pug">
   .projects-list
-    .project(v-for="(project, i) in vimeoStore.dhafir_videos.slice(-3)", :id='`project-${project.uri}`', @click="vimeoStore.setActive(project.uri)")
-      .bg-video
-        .video(:id='`project-${project.uri}`', :data-videoId="globalStore.extractVimeoId(project.link)")
+    .project(v-for="(project, i) in vimeoStore.dhafir_videos.filter((p) => p.selected).sort((a, b) => a.arrange - b.arrange)", :id='`project-${project.video}`', @click="vimeoStore.setActive(project.video)", @mouseover="globalStore.ballEnter('material-symbols:play-circle-outline')", @mouseleave="globalStore.ballLeave()")
+      
       .play-button
         .icon.flex.items-center.justify-center
           Icon(name="material-symbols:play-circle-outline", v-if="!project.active")
           Icon(name="material-symbols:stop-circle-outline", v-else)
       .thumbnail
-        img(:src="project.pictures.base_link")
+        img(:src="project.thumbnail")
       .content.container
         .title-director
-          span.title {{project.name}}
+          span.title {{project.title}}
           span.director Director: Dhafir
         .production-year
           span.production Production: Framevision
@@ -19,33 +18,30 @@
 </template>
 
 <script setup>
-import Player from '@vimeo/player';
+import Player from "@vimeo/player";
 
-const vimeoStore = useMyVimeoStore()
-const globalStore = useMyGlobalStore()
-const players = ref([])
+const vimeoStore = useMyVimeoStore();
+const globalStore = useMyGlobalStore();
+const players = ref([]);
 
-// watch(() => vimeoStore.dhafir_videos, () => {
-//   nextTick(() => {
-//     const projects = document.querySelectorAll('.projects-list .project .bg-video .video')
-//     projects.forEach((project) => {
-
-//       const options = {
-//         autoplay: true,
-//         loop: true,
-//         muted: true,
-//         controls: false,
-//         id: project.dataset.videoid,
-//         width: '100dvw',
-//         trigger: 'mouseenter'
-//       }
-
-//       let player = new Player(project, options)
-//       players.value.push(player)
-//     })
-//   })
-// })
-
+watch(
+  () => vimeoStore.dhafir_videos,
+  () => {
+    nextTick(() => {
+      useGsap.to(".projects-list .project", {
+        y: 0,
+        opacity: 1,
+        duration: 0,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".projects-list",
+          end: "top top",
+          start: "top 30%",
+        },
+      });
+    });
+  }
+);
 </script>
 
 <style scoped lang="scss">
@@ -57,40 +53,17 @@ const players = ref([])
 
   .project {
     width: 100%;
-    height: 489px;
+    height: 550px;
     position: relative;
     display: flex;
     align-items: end;
     justify-content: center;
     cursor: pointer;
-
+    transform: translateY(50px);
+    opacity: 0;
+    transition: 0.4s;
     @media (max-width: 767px) {
       height: 300px;
-    }
-
-    .bg-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .video {
-        width: 100%;
-        height: 100%;
-
-        iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
-      }
     }
 
     .play-button {
@@ -118,6 +91,7 @@ const players = ref([])
         width: 100%;
         height: 100%;
         object-fit: cover;
+        filter: brightness(0.4);
       }
     }
 

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .work-section
+  .work-section(ref="workEl")
     .container
       .title.flex.items-center.gap-4.w-full
         CustomTitle(title="work")
@@ -8,24 +8,57 @@
           .icon.flex.items-center.justify-center
             Icon(name="ic:outline-arrow-outward")
       .projects 
-        .project(v-for="(project, i) in vimeoStore.dhafir_videos" :key="i" @click="vimeoStore.setActive(project.uri)")
-          .loading(ref="loadingEl")
-          .thumbnail
-            img(:src="project.pictures.base_link")
-          .title
-            span {{project.name}}
+        .project(v-for="(project, i) in vimeoStore.dhafir_videos.sort((a, b) => a.arrange - b.arrange).slice(0, 6)" :key="i" @click="vimeoStore.setActive(project.video)", @mouseover="mouseEnter", @mouseleave="mouseLeave")
+          .content
+            .loading(ref="loadingEl")
+            .thumbnail
+              img(:src="project.thumbnail")
+            .title
+              span {{project.title}}
 </template>
 
 <script setup>
-const videoId = 1041094458
-const vimeoStore = useMyVimeoStore()
-const globalStore = useMyGlobalStore()
+const videoId = 1041094458;
+const vimeoStore = useMyVimeoStore();
+const globalStore = useMyGlobalStore();
+const workEl = ref("");
+
+const mouseEnter = () => {
+  globalStore.ball.grow = true;
+  globalStore.ball.icon = "fluent:cursor-click-24-filled";
+};
+
+const mouseLeave = () => {
+  globalStore.ball.grow = false;
+  globalStore.ball.icon = "";
+};
+
+watch(
+  () => vimeoStore.dhafir_videos,
+  () => {
+    if (vimeoStore.dhafir_videos.length > 0) {
+      nextTick(() => {
+        useGsap.to(".work-section .projects .project", {
+          y: 0,
+          opacity: 1,
+          duration: 0,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: workEl.value,
+            start: "top 30%",
+            end: "bottom center",
+          },
+        });
+      });
+    }
+  }
+);
 </script>
 
 <style scoped lang="scss">
 .work-section {
   .container {
-    >.title {
+    > .title {
       @media (max-width: 600px) {
         flex-direction: column;
         gap: 0px;
@@ -53,7 +86,6 @@ const globalStore = useMyGlobalStore()
           word-break: keep-all;
           font-size: 25px;
           text-transform: capitalize;
-
         }
 
         .icon {
@@ -80,26 +112,30 @@ const globalStore = useMyGlobalStore()
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
       }
 
-      >.project {
+      > .project {
         cursor: pointer;
-
-        .thumbnail {
-          width: 100%;
-          height: 250px;
-          margin-bottom: 1rem;
-          position: relative;
-
-          img {
+        transform: translateY(40px);
+        transition: 1s;
+        opacity: 0;
+        .content {
+          .thumbnail {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-          }
-        }
+            height: 250px;
+            margin-bottom: 1rem;
+            position: relative;
 
-        .title {
-          font-size: 16px;
-          font-weight: bold;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 10px;
+            }
+          }
+
+          .title {
+            font-size: 16px;
+            font-weight: bold;
+          }
         }
       }
     }

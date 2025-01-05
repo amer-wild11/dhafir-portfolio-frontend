@@ -3,12 +3,18 @@
     .bg
       img(src="/home/about/bg.png")
     .container
-      .title
+      .title.about-title
         h1 Work
 </template>
 
-<script lang="ts" setup>
-
+<script setup>
+onMounted(() => {
+  useGsap.to(".hero .about-title", {
+    y: 0,
+    opacity: 1,
+    duration: 0,
+  });
+});
 </script>
 
 <style scoped lang="scss">
@@ -42,6 +48,11 @@
     @media (max-width: 650px) {
       justify-content: center;
       text-align: center;
+    }
+    .title {
+      transform: translateY(100px);
+      opacity: 0;
+      transition: 1.5s;
     }
   }
 }

@@ -8,15 +8,14 @@
             .icon
               Icon(:name="link.icon")
         .email
-          span hello@dhafir-ayad.com
+          a(href="mailto:hello@dhafir-ayad.com")
+            span hello@dhafir-ayad.com
       .copyright
         span Copyrights 2024 All rights reserved © Malamih.net 2024
 </template>
 
 <script setup>
-
-const globalStore = useMyGlobalStore()
-
+const globalStore = useMyGlobalStore();
 </script>
 
 <style scoped lang="scss">

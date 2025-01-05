@@ -1,5 +1,9 @@
 $header-height: 130px;
+$dashboard-header-height: 100px;
+$sidebar-width: 200px;
 
 :root {
+  --sidebar-width: #{$sidebar-width};
   --header-height: #{$header-height};
+  --dashboard-header-height: #{$dashboard-header-height};
 }

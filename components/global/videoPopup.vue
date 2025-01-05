@@ -5,10 +5,10 @@
         #current_video-wrapper(style="width: 100%;", ref="active_video")
       .title-date.flex.flex-col
         .title
-          span.title {{vimeoStore.active_video.name}}
+          span.title {{vimeoStore.active_video.title}}
           .icon(@click="vimeoStore.closePopup")
             Icon(name="material-symbols:close-rounded")
-        span.date {{ globalStore.timeAgo(vimeoStore.active_video.created_time) }}
+        span.date {{ globalStore.timeAgo(vimeoStore.active_video.video_date) }}
       .profile
         a(href="https://vimeo.com/dhafir", target="_blank").flex.items-center.justify-between.gap-4.w-full
           .image
@@ -21,61 +21,69 @@
               .icon
               Icon(name="mdi:vimeo")
     .otherProjects 
-      .project(v-for="(project, i) in vimeoStore.dhafir_videos" :key="i" :class="project.active? 'active' : ''", @click="vimeoStore.setActive(project.uri)")
+      .project(v-for="(project, i) in vimeoStore.dhafir_videos" :key="i" :class="project.active? 'active' : ''", @click="vimeoStore.setActive(project.video)")
         .thumbnail.w-full
-          img(:src="project.pictures.base_link")
+          img(:src="project.thumbnail")
         .title
-          span {{project.name}}
+          span {{project.title}}
 </template>
 
 <script setup>
-import Player from '@vimeo/player'
+import Player from "@vimeo/player";
 
-const player = ref('')
-const vimeoStore = useMyVimeoStore()
-const globalStore = useMyGlobalStore()
-const currentVideo = ref('')
-const active_video = ref('')
+const player = ref("");
+const vimeoStore = useMyVimeoStore();
+const globalStore = useMyGlobalStore();
+const currentVideo = ref("");
+const active_video = ref("");
 
-watch(() => vimeoStore.videoPopup, (newVal, oldVal) => {
-  if (newVal && currentVideo.value) {
-    player.value = new Player(active_video.value, vimeoStore.active_video.vimeo_options)
+watch(
+  () => vimeoStore.videoPopup,
+  (newVal, oldVal) => {
+    if (newVal && currentVideo.value) {
+      player.value = new Player(
+        active_video.value,
+        vimeoStore.active_video.vimeo_options
+      );
 
-    useGsap.to(currentVideo.value, {
-      display: 'flex',
-      duration: 0
-    })
-    setTimeout(() => {
       useGsap.to(currentVideo.value, {
-        y: 0,
-        opacity: 1,
-        duration: 0
-      })
-    }, 200);
-  } else if (!newVal && currentVideo.value) {
-    player.value.destroy()
-    useGsap.to(currentVideo.value, {
-      y: '3%',
-      opacity: 0,
-      duration: 0
-    })
-    setTimeout(() => {
+        display: "flex",
+        duration: 0,
+      });
+      setTimeout(() => {
+        useGsap.to(currentVideo.value, {
+          y: 0,
+          opacity: 1,
+          duration: 0,
+        });
+      }, 200);
+    } else if (!newVal && currentVideo.value) {
+      player.value.destroy();
       useGsap.to(currentVideo.value, {
-        display: 'none',
-        duration: 0
-      })
-    }, 200);
+        y: "3%",
+        opacity: 0,
+        duration: 0,
+      });
+      setTimeout(() => {
+        useGsap.to(currentVideo.value, {
+          display: "none",
+          duration: 0,
+        });
+      }, 200);
+    }
   }
-})
+);
 
-watch(() => vimeoStore.active_video, (newVal, oldVal) => {
-  if (JSON.stringify(oldVal) != '{}' && JSON.stringify(newVal) != '{}') {
-    player.value.destroy().then(() => {
-      player.value = new Player(active_video.value, newVal.vimeo_options)
-    })
+watch(
+  () => vimeoStore.active_video,
+  (newVal, oldVal) => {
+    if (JSON.stringify(oldVal) != "{}" && JSON.stringify(newVal) != "{}") {
+      player.value.destroy().then(() => {
+        player.value = new Player(active_video.value, newVal.vimeo_options);
+      });
+    }
   }
-})
-
+);
 </script>
 
 <style scoped lang="scss">
@@ -92,7 +100,7 @@ watch(() => vimeoStore.active_video, (newVal, oldVal) => {
   display: none;
   transform: translateY(3%);
   opacity: 0;
-  transition: .2s;
+  transition: 0.2s;
 
   @media (max-width: 767px) {
     padding: 0;
@@ -104,6 +112,7 @@ watch(() => vimeoStore.active_video, (newVal, oldVal) => {
       flex: 1;
       position: unset;
       background-color: rgb(15, 15, 15);
+      overflow: unset !important;
     }
 
     .video-container {
@@ -119,11 +128,11 @@ watch(() => vimeoStore.active_video, (newVal, oldVal) => {
     position: sticky;
     top: 0;
     left: 0;
+    overflow: auto;
   }
 
   .video-container {
     border-radius: 20px;
-    width: fit-content;
     position: relative;
 
     #current_video-wrapper {
@@ -132,7 +141,7 @@ watch(() => vimeoStore.active_video, (newVal, oldVal) => {
     }
 
     &::before {
-      content: '';
+      content: "";
       width: 100%;
       height: 100%;
       position: absolute;
@@ -280,7 +289,6 @@ watch(() => vimeoStore.active_video, (newVal, oldVal) => {
       width: 100%;
       min-width: unset;
       max-width: unset;
-
     }
 
     .project {

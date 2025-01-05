@@ -20,6 +20,8 @@
     "nuxt-security": "^2.1.5",
     "pinia": "^2.3.0",
     "pug": "^3.0.3",
+    "sortablejs": "^1.15.6",
+    "sortablejs-vue3": "^1.2.11",
     "vue": "latest",
     "vue-router": "latest"
   },

@@ -11,6 +11,7 @@ interface VimeoVideo {
 }
 
 interface VimeoResponse {
+  projects: any;
   data: VimeoVideo[];
   total: number;
   page: number;
@@ -34,12 +35,11 @@ export const useMyVimeoStore = defineStore({
       const globalStore = useMyGlobalStore();
 
       try {
+        const headers = globalStore.headers;
         const response = await $fetch<VimeoResponse>(
-          `https://api.vimeo.com/users/${this.dhafir_id}/videos`,
+          `${globalStore.apiLink}/api/projects`,
           {
-            headers: {
-              Authorization: `Bearer ${this.access_token}`,
-            },
+            headers,
             params: {
               page: this.currentPage,
               per_page: this.perPage,
@@ -52,32 +52,43 @@ export const useMyVimeoStore = defineStore({
           autoplay: true,
           loop: true,
           trigger: "immediate",
-          width: 1100,
           responsive: true,
         };
-        response.data.forEach((video) => {
-          const current = response.data.find((v) => v.uri === video.uri);
+        const dashboardStore = useMyDashboardStore();
+
+        dashboardStore.videosCopy = response.projects;
+
+        response.projects.forEach((project: any) => {
+          const current = response.projects.find(
+            (p: any) => p.video === project.video
+          );
+
           if (current) {
             current.vimeo_options = { ...options };
-            current.vimeo_options.id = globalStore.extractVimeoId(current.link);
+            current.vimeo_options.id = globalStore.extractVimeoId(
+              current.video
+            );
           } else {
-            console.warn(`لم يتم العثور على فيديو بالمعرّف: ${video.uri}`);
+            console.warn(`لم يتم العثور على فيديو بالمعرّف: ${project.video}`);
           }
         });
-        this.totalVideos = response.total; // إجمالي عدد الفيديوهات
-        this.dhafir_videos = response.data; // قائمة الفيديوهات
+        this.totalVideos = response.projects.length; // إجمالي عدد الفيديوهات
+        this.dhafir_videos = response.projects; // قائمة الفيديوهات
+
         console.log("Videos fetched successfully:", response);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
     },
 
-    setActive(uri: any) {
-      let clickedVideo = this.dhafir_videos.find((video) => video.uri == uri);
+    setActive(video: any) {
+      console.log(this.dhafir_videos, video);
+      let clickedVideo = this.dhafir_videos.find((p: any) => p.video == video);
       this.active_video = clickedVideo;
       this.dhafir_videos.forEach((video) => {
         video.active = false;
       });
+
       if (clickedVideo) {
         clickedVideo.active = true;
       }

@@ -8,20 +8,24 @@
 </template>
 
 <script setup>
-const vimeoStore = useMyVimeoStore()
-
+const vimeoStore = useMyVimeoStore();
+const sectionsStore = useMySectionsStore();
 onMounted(() => {
-  vimeoStore.getVideos()
-})
+  vimeoStore.getVideos();
+  sectionsStore.getHeroSection();
+  sectionsStore.getAboutSection();
+});
 
-watch(() => vimeoStore.videoPopup, (newVal, oldVal) => {
-  if (newVal) {
-    document.documentElement.style.overflow = 'hidden';
-  } else {
-    document.documentElement.style.overflow = 'auto';
+watch(
+  () => vimeoStore.videoPopup,
+  (newVal, oldVal) => {
+    if (newVal) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+    }
   }
-})
-
+);
 </script>
 
 <style lang="scss">

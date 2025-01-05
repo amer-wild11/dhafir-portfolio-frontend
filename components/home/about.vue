@@ -15,7 +15,19 @@
 </template>
 
 <script setup>
-const sectionsStore = useMySectionsStore()
+const sectionsStore = useMySectionsStore();
+
+onMounted(() => {
+  const tl = useGsap.timeline();
+  tl.to(".about .content .text", {
+    y: 0,
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".about .content .text",
+      start: "top center",
+    },
+  });
+});
 </script>
 
 <style scoped lang="scss">
@@ -64,13 +76,15 @@ const sectionsStore = useMySectionsStore()
 
       .text {
         width: 60%;
-
+        transform: translateY(30px);
+        opacity: 0;
+        transition: 1s;
         .signature {
           margin-top: 20px;
 
           p {
             font-weight: 400;
-            font-family: 'Euphoria Script', sans-serif !important;
+            font-family: "Euphoria Script", sans-serif !important;
             font-size: 40px;
           }
         }
@@ -85,7 +99,10 @@ const sectionsStore = useMySectionsStore()
         float: right;
 
         img {
-          width: 100%;
+          width: 800px;
+          @media (max-width: 767px) {
+            width: 100%;
+          }
         }
       }
     }

@@ -1,11 +1,11 @@
 <template lang="pug">
   .container 
     .projects
-      .project(v-for="(project, i) in vimeoStore.dhafir_videos" :key="i", @click="vimeoStore.setActive(project.uri)")
+      .project(v-for="(project, i) in vimeoStore.dhafir_videos" :key="i", @click="vimeoStore.setActive(project.video)")
         .thumbnail
-          img(:src="project.pictures.base_link", alt="alt")
+          img(:src="project.thumbnail", alt="alt")
         .title
-          span {{project.name}}
+          span {{project.title}}
 </template>
 
 <script lang="ts" setup>
