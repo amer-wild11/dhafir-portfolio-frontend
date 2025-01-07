@@ -17,15 +17,6 @@ const props = defineProps({
 
 onMounted(() => {
   const tl = useGsap.timeline();
-  tl.to(".custom_title_content", {
-    x: 0,
-    y: 0,
-    opacity: 1,
-    scrollTrigger: {
-      trigger: ".custom_title",
-      scrub: 1,
-    },
-  });
   tl.to(".custom_title_line", {
     width: "100%",
     scrollTrigger: {
@@ -41,8 +32,7 @@ onMounted(() => {
   h1 {
     padding: 20px 10px;
     display: inline-block;
-    transform: translateY(-5%) translateX(-60px);
-    opacity: 0;
+    transform: translateY(-5%);
     text-transform: capitalize;
     font-weight: bold;
   }

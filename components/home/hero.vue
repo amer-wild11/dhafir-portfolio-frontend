@@ -170,7 +170,7 @@ watch(
     .time-effect {
       height: 90%;
       overflow: hidden;
-
+      opacity: 70%;
       .before,
       .after {
         top: 50%;

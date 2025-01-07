@@ -1,5 +1,5 @@
 <template lang="pug">
-  .about
+  .about#about-section
     .bg
       img(src="/home/about/bg.png", alt="alt")
     .container
@@ -52,7 +52,7 @@ onMounted(() => {
 
   .container {
     .title {
-      font-size: 40px;
+      font-size: 30px;
       margin-bottom: 10px;
     }
 
@@ -66,6 +66,9 @@ onMounted(() => {
 
         .text {
           width: 100% !important;
+          p {
+            font-size: 17px !important;
+          }
         }
 
         .image {
@@ -75,9 +78,7 @@ onMounted(() => {
       }
 
       .text {
-        width: 60%;
-        transform: translateY(30px);
-        opacity: 0;
+        width: 100%;
         transition: 1s;
         .signature {
           margin-top: 20px;
@@ -97,11 +98,16 @@ onMounted(() => {
 
       .image {
         float: right;
+        @media (max-width: 1024px) {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
 
         img {
           width: 800px;
-          @media (max-width: 767px) {
-            width: 100%;
+          @media (max-width: 1024px) {
+            width: 70%;
           }
         }
       }

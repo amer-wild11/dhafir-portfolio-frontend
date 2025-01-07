@@ -1,8 +1,12 @@
-<template lang="pug">
+<template>
+  <div></div>
+</template>
+
+<!-- <template lang="pug">
   .ball.flex.items-center.justify-center(ref="ball")
   .play-icon.flex.items-center.justify-center(ref="icon")
     .icon.flex.items-center.justify-center
-      Icon(:name="globalStore.ball.icon")
+      Icon(name="fluent:cursor-click-24-filled")
 </template>
 
 <script setup>
@@ -12,6 +16,10 @@ import gsap from "gsap";
 const globalStore = useMyGlobalStore();
 const ball = ref("");
 const icon = ref("");
+
+onMounted(() => {
+  globalStore.ballEnter();
+});
 
 watch(
   globalStore.ball,
@@ -44,6 +52,18 @@ watch(
         duration: 0.6,
       });
     }
+    if (newVal.show) {
+      useGsap.to(ball.value, {
+        scale: 1,
+        opacity: 1,
+      });
+    }
+    if (!newVal.show) {
+      useGsap.to(ball.value, {
+        scale: 0,
+        opacity: 0,
+      });
+    }
   },
   { deep: true }
 );
@@ -72,8 +92,8 @@ onMounted(() => {
       lastX = lerp(lastX, mouseX, smoothness);
       lastY = lerp(lastY, mouseY, smoothness);
       useGsap.to(icon.value, {
-        x: lastX,
-        y: lastY,
+        x: lastX - 12,
+        y: lastY - 12,
         duration: 0,
       });
       gsap.to(ball.value, {
@@ -123,10 +143,18 @@ onMounted(() => {
   left: 0;
   z-index: 999;
   background: linear-gradient(135deg, #ffffff, #ffffff);
+  
   // box-shadow: 0 0 10px 0 white;
   pointer-events: none;
+  scale: 0;
+  opacity: 0;
+  display: none;
+  @media (hover: hover) {
+    display: unset;
+  }
 }
 .play-icon {
+  display: none;
   color: black;
   width: 40px;
   height: 40px;
@@ -142,8 +170,11 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  @media (hover: hover) {
+    display: unset;
+  }
   .icon {
     font-size: 50px;
   }
 }
-</style>
+</style> -->

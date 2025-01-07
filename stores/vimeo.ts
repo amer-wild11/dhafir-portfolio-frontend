@@ -40,10 +40,6 @@ export const useMyVimeoStore = defineStore({
           `${globalStore.apiLink}/api/projects`,
           {
             headers,
-            params: {
-              page: this.currentPage,
-              per_page: this.perPage,
-            },
           }
         );
 
@@ -54,6 +50,7 @@ export const useMyVimeoStore = defineStore({
           trigger: "immediate",
           responsive: true,
         };
+
         const dashboardStore = useMyDashboardStore();
 
         dashboardStore.videosCopy = response.projects;

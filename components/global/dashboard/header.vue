@@ -4,7 +4,7 @@
       img(src="/dashboard/header/logo-no-background.png", alt="alt")
     ul.links
       li.link
-        a(href="https://wa.me/+9647856260420", target="_blank") Support
+        a(href="https://wa.me/9647811111977", target="_blank") Support
 </template>
 
 <script lang="ts" setup></script>

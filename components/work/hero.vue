@@ -20,7 +20,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .hero {
   width: 100%;
-  height: 100vh;
+  height: 30dvh;
   padding-top: var(--header-height);
   position: relative;
 

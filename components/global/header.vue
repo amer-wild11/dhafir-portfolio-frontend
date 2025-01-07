@@ -6,14 +6,50 @@
           h1 Dhafir Ayad
           p Film Director
       ul.links.flex.items-center.gap-10
-        li.link
-          NuxtLink(to="/work") Work
-        li.link
-          NuxtLink(to="/") Get in touch
+        li.link.work
+          NuxtLink(to="/work").work Work
+        li.link.get-in-touch(@click="scrollToAbout")
+          NuxtLink(to="/")(ref="getInTouchLink") Get in touch
 </template>
 
 <script setup>
+const getInTouchLink = ref("");
+
+const scrollToAbout = () => {
+  useGsap.to(window, {
+    scrollTo: "#about-section",
+    duration: 1,
+  });
+};
+
 onMounted(() => {
+  useGsap.to(".global_header .links .get-in-touch", {
+    duration: 0,
+    scrollTrigger: {
+      marker: true,
+      trigger: "#about-section",
+      toggleActions: "play none none reverse",
+    },
+  });
+  window.addEventListener("scroll", function () {
+    // Calculate the scroll position
+    const scrollPosition = window.scrollY + window.innerHeight;
+
+    // Get the total height of the document
+    const documentHeight = document.documentElement.scrollHeight - 500;
+
+    // Check if the user has scrolled to the bottom
+
+    if (scrollPosition >= documentHeight) {
+      useGsap.to(".global_header .links .get-in-touch", {
+        textDecoration: "underline",
+      });
+    } else {
+      useGsap.to(".global_header .links .get-in-touch", {
+        textDecoration: "none",
+      });
+    }
+  });
   const tl = useGsap.timeline();
   tl.to(".global_header .logo", {
     y: 0,
@@ -45,7 +81,7 @@ header {
       transition: 1s;
       opacity: 0;
       @media (max-width: 600px) {
-        width: 100px;
+        min-width: 140px;
       }
 
       h1 {
@@ -54,7 +90,7 @@ header {
         font-weight: bold;
 
         @media (max-width: 767px) {
-          font-size: 30px;
+          font-size: 26px;
         }
       }
 
@@ -87,7 +123,7 @@ header {
             }
           }
 
-          &.router-link-active {
+          &.work.router-link-active {
             text-decoration: underline;
           }
         }

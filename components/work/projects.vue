@@ -14,7 +14,7 @@ const vimeoStore = useMyVimeoStore()
 
 <style scoped lang="scss">
 .container {
-  margin-top: 10px;
+  margin-top: 30px;
 
   .projects {
     width: 100%;

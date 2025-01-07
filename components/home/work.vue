@@ -1,5 +1,6 @@
 <template lang="pug">
-  .work-section(ref="workEl")
+  .work-section(ref="workEl", @mouseover="showBall", @mouseleave="hideBall")
+    Ball
     .container
       .title.flex.items-center.gap-4.w-full
         CustomTitle(title="work")
@@ -33,6 +34,14 @@ const mouseLeave = () => {
   globalStore.ball.icon = "";
 };
 
+const showBall = () => {
+  globalStore.ball.show = true;
+};
+
+const hideBall = () => {
+  globalStore.ball.show = false;
+};
+
 watch(
   () => vimeoStore.dhafir_videos,
   () => {
@@ -57,18 +66,17 @@ watch(
 
 <style scoped lang="scss">
 .work-section {
+  overflow: hidden;
+  position: relative;
   .container {
     > .title {
       @media (max-width: 600px) {
-        flex-direction: column;
         gap: 0px;
-        align-items: center;
-        justify-content: start;
       }
 
       .title {
         width: 90%;
-        font-size: 40px;
+        font-size: 30px;
       }
 
       .ctaButton {

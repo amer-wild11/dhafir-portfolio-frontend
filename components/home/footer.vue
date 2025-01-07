@@ -11,7 +11,8 @@
           a(href="mailto:hello@dhafir-ayad.com")
             span hello@dhafir-ayad.com
       .copyright
-        span Copyrights 2024 All rights reserved © Malamih.net 2024
+        a(href="https://malamih.net/", target="_blank") 
+          span Copyrights 2024 All rights reserved © Malamih.net 2024
 </template>
 
 <script setup>
@@ -22,7 +23,7 @@ const globalStore = useMyGlobalStore();
 footer {
   .container {
     .title {
-      font-size: 40px;
+      font-size: 30px;
       margin-top: 30px;
     }
 

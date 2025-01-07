@@ -3,7 +3,6 @@
     <Header />
     <slot />
     <VideoPopup />
-    <Ball />
   </div>
 </template>
 

@@ -23,8 +23,7 @@ export const useMyGlobalStore = defineStore({
         id: 3,
       },
     ],
-    apiLink:
-      "https://dhafir-backend-5hix3ckos-amer-wild11s-projects.vercel.app",
+    apiLink: "https://dhafir-api.vercel.app",
     headers: {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjc3MzczYzhhOGQzODM3NmFjZjVlYTczIiwiaWF0IjoxNzM1NzMzOTY5LCJleHAiOjE3MzU4MjAzNjl9.9ScRMwsl0XTv2BfhhDrABaGUGcdGEL_eelIYzMeTmoU",
@@ -33,6 +32,7 @@ export const useMyGlobalStore = defineStore({
       grow: false,
       play_icon: false,
       icon: "",
+      show: false,
     },
   }),
   actions: {
@@ -67,10 +67,12 @@ export const useMyGlobalStore = defineStore({
     ballEnter(icon) {
       this.ball.icon = icon;
       this.ball.grow = true;
+      this.ball.show = true;
     },
     ballLeave() {
       this.ball.icon = "";
       this.ball.grow = false;
+      this.ball.show = false;
     },
   },
 });

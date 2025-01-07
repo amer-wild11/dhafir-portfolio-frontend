@@ -13,8 +13,8 @@
           span.title {{project.title}}
           span.director Director: Dhafir
         .production-year
-          span.production Production: Framevision
-          span.year Year: 2024
+          span.production 
+          span.year 
 </template>
 
 <script setup>
@@ -98,19 +98,20 @@ watch(
     .content {
       z-index: 1;
       position: relative;
-      height: 40%;
+      height: 20%;
       width: 99%;
       max-width: 1500px;
       display: flex;
-      justify-content: space-between;
+      justify-content: start;
 
       .title-director {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 5px;
 
         .title {
-          font-size: 50px;
+          font-size: 40px;
           font-weight: bold;
           line-height: 100%;
 
@@ -120,7 +121,7 @@ watch(
         }
 
         .director {
-          font-size: 25px;
+          font-size: 20px;
           color: rgba(255, 255, 255, 0.733);
           font-weight: 300;
 

@@ -29,20 +29,19 @@ export const useMyDashboardStore = defineStore({
   }),
   actions: {
     async getVimeoVideos(userId: any) {
-      const vimeoStore = useMyVimeoStore();
       this.importButtonContent = "Importing...";
       try {
         const response = await fetch(
-          `https:/api.vimeo.com/users/${userId}/videos`,
+          `https://api.vimeo.com/users/${userId}/videos?page=1&per_page=100`,
           {
+            method: "GET",
             headers: {
-              Authorization: `Bearer ${vimeoStore.access_token}`,
+              Authorization: `Bearer b175e353dad0082657dd51e041b10239`,
             },
           }
         );
 
         console.log(response);
-        this.importButtonContent = "Import";
 
         if (!response.ok) {
           throw new Error(
@@ -51,6 +50,9 @@ export const useMyDashboardStore = defineStore({
         }
 
         const data = await response.json();
+        this.importButtonContent = "Import";
+        console.log(data);
+
         this.currentProjects = data.data;
       } catch (err) {
         this.importButtonContent = "Import";
